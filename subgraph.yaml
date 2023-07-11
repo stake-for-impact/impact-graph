@@ -1,0 +1,42 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: imNFT
+    network: goerli
+    source:
+      address: "0xCc7577765D18DdFB6a6CC770E0424d50f8A99f63"
+      abi: imNFT
+      startBlock: 9329419
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - NFTMinted
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - Transfer
+      abis:
+        - name: imNFT
+          file: ./abis/imNFT.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: NFTMinted(address,address,uint256)
+          handler: handleNFTMinted
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/im-nft.ts

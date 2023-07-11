@@ -1,0 +1,8 @@
+{
+  "goerli": {
+    "imNFT": {
+      "address": "0xCc7577765D18DdFB6a6CC770E0424d50f8A99f63",
+      "startBlock": 9329419
+    }
+  }
+}
