@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: VaultFactoryLido
@@ -17,11 +17,11 @@ dataSources:
         - Vault
       abis:
         - name: VaultFactoryLido
-          file: ./abis/VaultFactoryLido.json
+          file: VaultFactoryLido/abis/VaultFactoryLido.json
       eventHandlers:
         - event: VaultCreated(indexed address,indexed address,string,string,indexed address)
           handler: handleVaultCreated
-      file: ./src/vault-factory-lido.ts
+      file: VaultFactoryLido/VaultFactoryLido.wasm
   - kind: ethereum
     name: Vault
     network: goerli
@@ -39,7 +39,7 @@ dataSources:
         - NFT
       abis:
         - name: Vault
-          file: ./abis/Vault.json
+          file: Vault/abis/Vault.json
       eventHandlers:
         - event: Deposit(indexed address,uint256,uint256)
           handler: handleDeposit
@@ -47,4 +47,4 @@ dataSources:
           handler: handleHarvestRewards
         - event: Withdraw(indexed address,uint256,uint256)
           handler: handleWithdraw
-      file: ./src/vault.ts
+      file: Vault/Vault.wasm
