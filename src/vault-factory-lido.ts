@@ -5,7 +5,7 @@ import { Vault } from "../generated/schema"
 import { BigInt } from "@graphprotocol/graph-ts"
 
 export function handleVaultCreated(event: VaultCreatedEvent): void {
-  let vault = new Vault(event.params.vaultAddress.toHex())
+  let vault = new Vault(event.params.vaultAddress.toString())
   vault.id = event.params.vaultAddress.toString()
   vault.address = event.params.vaultAddress
   vault.beneficiary = event.params.beneficiary

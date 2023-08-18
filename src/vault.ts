@@ -1,3 +1,5 @@
+import { log } from "@graphprotocol/graph-ts"
+
 import {
   Deposit as DepositEvent,
   HarvestRewards as HarvestRewardsEvent,
@@ -38,7 +40,7 @@ export function handleDeposit(event: DepositEvent): void {
     userVault.nftCount = userVault.nftCount.plus(BigInt.fromI32(1))
   }
 
-  let vault = Vault.load(event.address.toHex())
+  let vault = Vault.load(event.address.toString())
   if (vault != null) {
     vault.totalEthDeposits = vault.totalEthDeposits.plus(event.params.amount)
     vault.save()
@@ -55,7 +57,7 @@ export function handleDeposit(event: DepositEvent): void {
 }
 
 export function handleHarvestRewards(event: HarvestRewardsEvent): void {
-  let vault = Vault.load(event.address.toHex())
+  let vault = Vault.load(event.address.toString())
 
   if (vault != null) {
     vault.totalHarvested = vault.totalHarvested.plus(event.params.amount)
@@ -64,10 +66,10 @@ export function handleHarvestRewards(event: HarvestRewardsEvent): void {
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {
-  let userId = event.params.user.toHex()
+  let userId = event.params.user.toString()
   let tokenId = event.params.tokenId.toString()
   let withdrawnAmount = event.params.amount
-  let vaultAddress = event.address.toHex()
+  let vaultAddress = event.address.toString()
 
   let user = User.load(userId)
   if (user == null) {
@@ -79,7 +81,8 @@ export function handleWithdraw(event: WithdrawEvent): void {
   if (userVault == null) {
     // This should never happen in a normal scenario. If it happens, then
     // the data is in an inconsistent state.
-    throw new Error("UserVault entity not found")
+    log.debug("UserVault not found for user {}", [userVaultId])
+
   } else {
     userVault.nftCount = userVault.nftCount.minus(BigInt.fromI32(1))
     if (userVault.nftCount.equals(BigInt.fromI32(0))) {
